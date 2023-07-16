@@ -6,7 +6,7 @@ warnings.filterwarnings('ignore')
 
 class Utils:
   @classmethod
-  def wav2csv(cls, audio_file, file_name, toCSV=False):
+  def wav2csv(cls, audio_file, file_name, toCSV=False, toTXT=False):
     tamano = 0
     lista = []
 
@@ -24,9 +24,15 @@ class Utils:
     if toCSV:
       print("Saving CSV file...")
       df.to_csv(file_name, index=False)
+    elif toTXT:
+      print("Saving TXT file...")
+      with open(f'csv/{file_name}', 'r') as i, open('csv/' + file_name[:-4] + '.txt', 'w') as out:
+        for line in i:
+          line = line.replace(',', ' ')
+          out.write(line)
 
     return df
 
 if __name__ == "__main__":
-  df = Utils().wav2csv("wav2csv/test.wav", "wav2csv/test.csv", toCSV=True)
+  df = Utils().wav2csv("wav2csv/test.wav", "wav2csv/test.csv", toCSV=True, toTXT=False)
   # print(df)
